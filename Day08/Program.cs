@@ -17,22 +17,24 @@ foreach (var line in input)
     var lasts = last.Split(' ').Select(s => s.Trim());
     totCount += lasts.Count(t => lens.Contains(t.Length));
 
-    var map = new string[] { "abcdef", "abcdef", "abcdef", "abcdef", "abcdef", "abcdef", "abcdef" };
+    var map = new int[7, 7];
 
     foreach (var str in firsts)
     {
         if (str.Length == 2)
         {
-            exclude(ref map, str, "cf"); // Must be 1
+            exclude(ref map, str, new[]{3, 6 }); // Must be 1
         }
     }
 
 }
 Console.WriteLine(totCount);
 
-void exclude(ref string[] map, string str, string segments)
+void exclude(ref int[,] map, string str, int[] segments)
 {
-    foreach (var segment in segments)
-        foreach (var t in map)
-            t = t.Replace(segment)
+    foreach (var ch in str)
+    {
+        var tochange = map[ch - 'a'];
+        map[ch - 'a'] = tochange.Replace(segment);
+    }
 }
