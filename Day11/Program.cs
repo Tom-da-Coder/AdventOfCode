@@ -14,13 +14,14 @@ for (var k = 0; k < 10; k++)
         octos[k + 1, i + 1] = line[i] - '0';
 }
 
-for (int gen = 0; gen < 100; gen++)
+for (int gen = 0; gen < 4000; gen++)
 {
     for (int r = 1; r < 11; r++)
         for (int c = 1; c < 11; c++)
             octos[r, c]++;
 
     int nflash = 0;
+    int flashongen = 0;
     do
     {
         nflash = 0;
@@ -35,7 +36,13 @@ for (int gen = 0; gen < 100; gen++)
                 }
             }
         totCount += nflash;
+        flashongen += nflash;
     } while (nflash > 0);
+    if (flashongen == 100)
+    {
+        Console.WriteLine($"All flash at {gen + 1}");
+        return;
+    }
 
     for (int r = 1; r < 11; r++)
         for (int c = 1; c < 11; c++)
