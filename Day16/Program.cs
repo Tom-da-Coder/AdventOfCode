@@ -21,11 +21,11 @@ public class Packet
         Eql = 7
     };
 
-    public uint V;
+    public long V;
     public Operator T;
     public bool ltId;
     public List<Packet> Subpackets;
-    public uint ConstVal = 0;
+    public long ConstVal = 0;
 
     public Packet(BitStream bits)
     {
@@ -55,16 +55,16 @@ public class Packet
         }
     }
 
-    public uint Value => T switch
+    public long Value => T switch
     {
-        Operator.Sum => Subpackets.Aggregate(0U, (a, p) => a + p.Value),
-        Operator.Prod => Subpackets.Aggregate(1U, (a, p) => a * p.Value),
+        Operator.Sum => Subpackets.Aggregate(0L, (a, p) => a + p.Value),
+        Operator.Prod => Subpackets.Aggregate(1L, (a, p) => a * p.Value),
         Operator.Min => Subpackets.Min(p => p.Value),
         Operator.Max => Subpackets.Max(p => p.Value),
         Operator.Const => ConstVal,
-        Operator.Gtr => Subpackets[0].Value > Subpackets[1].Value ? 1U : 0,
-        Operator.Less => Subpackets[0].Value < Subpackets[1].Value ? 1U : 0,
-        Operator.Eql => Subpackets[0].Value == Subpackets[1].Value ? 1U : 0
+        Operator.Gtr => Subpackets[0].Value > Subpackets[1].Value ? 1 : 0,
+        Operator.Less => Subpackets[0].Value < Subpackets[1].Value ? 1 : 0,
+        Operator.Eql => Subpackets[0].Value == Subpackets[1].Value ? 1 : 0
     };
 
 
@@ -74,15 +74,20 @@ public class Packet
         return V + (Subpackets?.Sum(p => p.SumVersions()) ?? 0);
     }
 
-    uint ReadConst(BitStream bits)
+    long ReadConst(BitStream bits)
     {
         bool notlast;
-        uint ret = 0;
+        long ret = 0;
+        int nBits = -1;
         do
         {
             notlast = bits.GetBit();
             ret = (ret << 4) + bits.GetIntBits(4);
+            nBits += 4;
         } while (notlast);
+        if ((ret & (1 << nBits)) != 0)
+            while (nBits < 64)
+                ret |= (1L << nBits++);
         return ret;
     }
 }
@@ -100,12 +105,12 @@ public class BitStream
     }
 
 
-    public uint GetIntBits(int n)
+    public long GetIntBits(int n)
     {
         if (n > 32)
             throw new Exception();
-        uint ret = 0;
-        uint mask = 1U << (n - 1);
+        long ret = 0;
+        long mask = 1U << (n - 1);
         for (int i = 0; i < n; i++)
         {
             if (GetBit())
