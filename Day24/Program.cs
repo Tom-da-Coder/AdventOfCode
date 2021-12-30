@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.IO;
 using System.Text.RegularExpressions;
 
 Console.WriteLine("AOC 2021-24");

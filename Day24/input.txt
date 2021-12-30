@@ -62,57 +62,57 @@ eql x w		(I3 - 7) == (I4)
 eql x 0		x -> 0
 mul y 0
 add y 25
-mul y x		y = (I3 - I4) == 7 ? 0 : 25
-add y 1		--> 1 : 26
-mul z y		z = (1:26) * (26 * I1 + I2 + 398)
+mul y x		y = (I3 - I4) == 7 ? *0* : 25
+add y 1		--> *1* : 26
+mul z y		z = *(26 * I1 + I2 + 398)*
 mul y 0		y = 0
 add y w		y = I4
 add y 6		y = I4 + 6
-mul y x		y (0:1) * (I4 + 6)
-add z y
+mul y x		y = 0
+add z y		z = 26 * I1 + I2 + 398
 inp w		I5 ---------------------------
 mul x 0
 add x z
-mod x 26	x = z % 26
-div z 1
-add x 15
-eql x w
-eql x 0
+mod x 26	x = z % 26 = I2 + 8
+div z 1		z = 26*I1 + I2 + 398
+add x 15	x = I2 + 23
+eql x w		(I2 + 23 == I5) => x = 0
+eql x 0		x = 1
 mul y 0
 add y 25
 mul y x
-add y 1
-mul z y
+add y 1		y = 26
+mul z y		z = 676*I1 + 26*I2 + 10348
 mul y 0
 add y w
-add y 13
-mul y x
-add z y
-inp w
+add y 13	y = I5 + 13
+mul y x		
+add z y		z = 676*I1 + 26*I2 + I5 + 10361
+inp w		I6 -----------------------
 mul x 0
 add x z
-mod x 26
-div z 1
-add x 10
-eql x w
-eql x 0
+mod x 26	x = z % 26 = I5 + 13
+div z 1		z = 676*I1 + 26*I2 + I5 + 10361
+add x 10	x = I5 + 23
+eql x w		(I6 == I5 + 23) -> x=0
+eql x 0		x=1
 mul y 0
 add y 25
-mul y x
-add y 1
-mul z y
+mul y x	
+add y 1		y=26
+mul z y		z = 676*I1 + 26*I2 + 10348
 mul y 0
 add y w
-add y 4
-mul y x
-add z y
-inp w
+add y 4		
+mul y x		y=I6+4
+add z y		z = 676*I1 + 26*I2 + I6 + 10352
+inp w		I7 -----------------------
 mul x 0
 add x z
-mod x 26
-div z 1
-add x 14
-eql x w
+mod x 26	x = 
+div z 1		z = 26*I1 + I2 + 398
+add x 14	x = I2 + 22
+eql x w		(I7 == I2 + 22)
 eql x 0
 mul y 0
 add y 25
@@ -234,7 +234,7 @@ mul y x
 add z y
 inp w
 mul x 0
-add x z		<=20
+add x z		z<=20
 mod x 26
 div z 26
 add x -11
