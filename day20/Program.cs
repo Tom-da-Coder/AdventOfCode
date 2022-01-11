@@ -10,8 +10,11 @@ var map = input[0];
 var image = input.Skip(2).ToList();
 
 PrintImage();
-ProcessImage(false); PrintImage();
-ProcessImage(true); PrintImage();
+for (int i = 0; i < 25; i++)
+{
+    ProcessImage(false);
+    ProcessImage(true);
+}
 PrintImage();
 var totCount = image.Sum(t => t.Count(c => c == '#'));
 Console.WriteLine(totCount);
